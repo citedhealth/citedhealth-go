@@ -10,10 +10,15 @@ CITED Health indexes PubMed research and calculates evidence grades from A (stro
 
 > **Explore the evidence at [citedhealth.com](https://citedhealth.com)** — [Ingredients](https://citedhealth.com/api/ingredients/) · [Evidence](https://citedhealth.com/api/evidence/) · [Papers](https://citedhealth.com/api/papers/) · [Developer Docs](https://citedhealth.com/developers/)
 
+<p align="center">
+  <img src="demo.gif" alt="citedhealth CLI demo — search ingredients, check evidence grades, browse PubMed papers" width="800">
+</p>
+
 ## Table of Contents
 
 - [Install](#install)
 - [Quick Start](#quick-start)
+- [Command-Line Interface](#command-line-interface)
 - [What You Can Do](#what-you-can-do)
   - [Search Supplement Ingredients](#search-supplement-ingredients)
   - [Check Evidence Grades](#check-evidence-grades)
@@ -70,6 +75,39 @@ func main() {
 	}
 	fmt.Printf("%d papers found\n", len(papers))
 }
+```
+
+## Command-Line Interface
+
+Install the CLI:
+
+```bash
+go install github.com/citedhealth/citedhealth-go/cmd/citedhealth@latest
+```
+
+### Usage
+
+```bash
+# Search ingredients by name
+citedhealth ingredients biotin
+
+# Filter ingredients by category
+citedhealth ingredients --category vitamins
+
+# Get a single ingredient
+citedhealth ingredient biotin
+
+# Check evidence for an ingredient-condition pair
+citedhealth evidence biotin hair-loss
+
+# Search PubMed papers by year
+citedhealth papers --year 2024
+
+# Get a paper by PubMed ID
+citedhealth paper 35959711
+
+# Compact JSON output (default is pretty-printed)
+citedhealth ingredients biotin --json
 ```
 
 ## What You Can Do
