@@ -230,6 +230,8 @@ OpenAPI 3.1.0 spec: [citedhealth.com/api/openapi.json](https://citedhealth.com/a
 - **API**: [REST API Docs](https://citedhealth.com/developers/) · [OpenAPI Spec](https://citedhealth.com/api/openapi.json)
 - **Python**: [citedhealth on PyPI](https://pypi.org/project/citedhealth/)
 - **TypeScript**: [citedhealth on npm](https://www.npmjs.com/package/citedhealth)
+- **Rust**: [citedhealth on crates.io](https://crates.io/crates/citedhealth)
+- **Ruby**: [citedhealth on RubyGems](https://rubygems.org/gems/citedhealth)
 
 ## Also Available
 
@@ -237,6 +239,8 @@ OpenAPI 3.1.0 spec: [citedhealth.com/api/openapi.json](https://citedhealth.com/a
 |----------|---------|------|
 | **PyPI** | `pip install citedhealth` | [PyPI](https://pypi.org/project/citedhealth/) |
 | **npm** | `npm install citedhealth` | [npm](https://www.npmjs.com/package/citedhealth) |
+| **Rust** | `cargo add citedhealth` | [crates.io](https://crates.io/crates/citedhealth) |
+| **Ruby** | `gem install citedhealth` | [RubyGems](https://rubygems.org/gems/citedhealth) |
 | **MCP** | `uvx citedhealth-mcp` | [PyPI](https://pypi.org/project/citedhealth-mcp/) |
 
 ## License
