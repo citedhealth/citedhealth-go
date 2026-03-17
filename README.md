@@ -101,7 +101,7 @@ biotin, _ := client.GetIngredient(ctx, "biotin")
 fmt.Println(biotin.RecommendedDosage) // map[general:2.5-5mg deficiency:10-30mg]
 ```
 
-Learn more: [Browse Ingredients](https://citedhealth.com/) · [Evidence Database](https://citedhealth.com/evidence/) · [Developer Docs](https://citedhealth.com/developers/)
+Learn more: [Browse Ingredients](https://citedhealth.com/) · [Evidence Database](https://citedhealth.com/api/evidence/) · [Developer Docs](https://citedhealth.com/developers/)
 
 ### Check Evidence Grades
 
@@ -124,7 +124,7 @@ fmt.Println(evidence.Summary)   // Human-readable summary
 ev, _ := client.GetEvidenceByID(ctx, 1)
 ```
 
-Learn more: [Evidence Reviews](https://citedhealth.com/evidence/) · [Grading Methodology](https://citedhealth.com/editorial-policy/) · [Hair Health](https://haircited.com) · [Sleep Health](https://sleepcited.com)
+Learn more: [Evidence Reviews](https://citedhealth.com/api/evidence/) · [Grading Methodology](https://citedhealth.com/editorial-policy/) · [Hair Health](https://haircited.com) · [Sleep Health](https://sleepcited.com)
 
 ### Search PubMed Papers
 
@@ -224,7 +224,7 @@ OpenAPI 3.1.0 spec: [citedhealth.com/api/openapi.json](https://citedhealth.com/a
 
 ## Learn More About Evidence-Based Supplements
 
-- **Tools**: [Evidence Checker](https://citedhealth.com/evidence/) · [Ingredient Browser](https://citedhealth.com/) · [Paper Search](https://citedhealth.com/papers/)
+- **Tools**: [Evidence Checker](https://citedhealth.com/api/evidence/) · [Ingredient Browser](https://citedhealth.com/) · [Paper Search](https://citedhealth.com/papers/)
 - **Browse**: [Hair Health](https://haircited.com) · [Sleep Health](https://sleepcited.com) · [All Ingredients](https://citedhealth.com/api/ingredients/)
 - **Guides**: [Grading Methodology](https://citedhealth.com/editorial-policy/) · [Medical Disclaimer](https://citedhealth.com/medical-disclaimer/)
 - **API**: [REST API Docs](https://citedhealth.com/developers/) · [OpenAPI Spec](https://citedhealth.com/api/openapi.json)
