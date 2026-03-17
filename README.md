@@ -61,7 +61,7 @@ func main() {
 	fmt.Println(ingredients[0].Name) // "Biotin"
 
 	// Get evidence grade for ingredient-condition pair
-	evidence, err := client.GetEvidence(ctx, "biotin", "hair-loss")
+	evidence, err := client.GetEvidence(ctx, "biotin", "nutritional-deficiency-hair-loss")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -98,7 +98,7 @@ citedhealth ingredients --category vitamins
 citedhealth ingredient biotin
 
 # Check evidence for an ingredient-condition pair
-citedhealth evidence biotin hair-loss
+citedhealth evidence biotin nutritional-deficiency-hair-loss
 
 # Search PubMed papers by year
 citedhealth papers --year 2024
@@ -150,7 +150,7 @@ client := citedhealth.New()
 ctx := context.Background()
 
 // Get evidence for a specific ingredient-condition pair
-evidence, _ := client.GetEvidence(ctx, "biotin", "hair-loss")
+evidence, _ := client.GetEvidence(ctx, "biotin", "nutritional-deficiency-hair-loss")
 fmt.Printf("Grade %s: %d studies\n", evidence.Grade, evidence.TotalStudies)
 // Grade A: 12 studies
 
