@@ -11,7 +11,7 @@ Type "go run ./cmd/citedhealth ingredients biotin"
 Enter
 Sleep 3s
 
-Type "go run ./cmd/citedhealth evidence biotin hair-loss"
+Type "go run ./cmd/citedhealth evidence biotin nutritional-deficiency-hair-loss"
 Enter
 Sleep 3s
 

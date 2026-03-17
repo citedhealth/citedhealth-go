@@ -24,7 +24,7 @@ import (
 )
 
 // DefaultBaseURL is the default base URL for the CITED Health API.
-const DefaultBaseURL = "https://citedhealth.com"
+const DefaultBaseURL = "https://haircited.com"
 
 // DefaultTimeout is the default HTTP timeout.
 const DefaultTimeout = 30 * time.Second
