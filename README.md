@@ -3,6 +3,7 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/citedhealth/citedhealth-go.svg)](https://pkg.go.dev/github.com/citedhealth/citedhealth-go)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Zero Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)](https://pkg.go.dev/github.com/citedhealth/citedhealth-go)
+[![GitHub stars](https://agentgif.com/badge/github/citedhealth/citedhealth-go/stars.svg)](https://github.com/citedhealth/citedhealth-go)
 
 Go client for the [CITED Health](https://citedhealth.com) evidence-based supplement API. Query 74 ingredients, 30 conditions, 152 evidence links, and 2,881 PubMed papers — zero dependencies, stdlib only (`net/http` + `encoding/json`).
 
@@ -11,7 +12,7 @@ CITED Health indexes PubMed research and calculates evidence grades from A (stro
 > **Explore the evidence at [citedhealth.com](https://citedhealth.com)** — [Ingredients](https://citedhealth.com/api/ingredients/) · [Evidence](https://citedhealth.com/api/evidence/) · [Papers](https://citedhealth.com/api/papers/) · [Developer Docs](https://citedhealth.com/developers/)
 
 <p align="center">
-  <img src="demo.gif" alt="citedhealth CLI demo — search ingredients, check evidence grades, browse PubMed papers" width="800">
+  <a href="https://agentgif.com/UlMPmFIi"><img src="https://media.agentgif.com/UlMPmFIi.gif" alt="citedhealth Go CLI demo — search ingredients, check evidence grades, browse PubMed papers" width="800"></a>
 </p>
 
 ## Table of Contents
