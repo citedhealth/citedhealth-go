@@ -5,11 +5,11 @@
 [![Zero Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)](https://pkg.go.dev/github.com/citedhealth/citedhealth-go)
 [![GitHub stars](https://agentgif.com/badge/github/citedhealth/citedhealth-go/stars.svg)](https://github.com/citedhealth/citedhealth-go)
 
-Go client for the [CITED Health](https://citedhealth.com) evidence-based supplement API. Query 74 ingredients, 30 conditions, 152 evidence links, and 2,881 PubMed papers — zero dependencies, stdlib only (`net/http` + `encoding/json`).
+Go client for the [CITED Health](https://citedhealth.com) evidence-based supplement API across 6 sites. Query 188 ingredients, 84 conditions, 323 evidence links, and 6,197 PubMed papers — zero dependencies, stdlib only (`net/http` + `encoding/json`).
 
 CITED Health indexes PubMed research and calculates evidence grades from A (strong: multiple RCTs/meta-analyses) to F (negative: most studies show no effect). The API is free, no authentication required, and returns JSON with CORS enabled.
 
-> **Explore the evidence at [citedhealth.com](https://citedhealth.com)** — [Ingredients](https://citedhealth.com/api/ingredients/) · [Evidence](https://citedhealth.com/api/evidence/) · [Papers](https://citedhealth.com/api/papers/) · [Developer Docs](https://citedhealth.com/developers/)
+> **Explore the evidence at [citedhealth.com](https://citedhealth.com)** — [Ingredients](https://citedhealth.com/api/ingredients/) · [Evidence](https://citedhealth.com/api/evidence/) · [Papers](https://citedhealth.com/api/papers/) · [Conditions](https://citedhealth.com/api/conditions/) · [Developer Docs](https://citedhealth.com/developers/)
 
 <p align="center">
   <a href="https://agentgif.com/UlMPmFIi"><img src="https://media.agentgif.com/UlMPmFIi.gif" alt="citedhealth Go CLI demo — search ingredients, check evidence grades, browse PubMed papers" width="800"></a>
@@ -24,6 +24,9 @@ CITED Health indexes PubMed research and calculates evidence grades from A (stro
   - [Search Supplement Ingredients](#search-supplement-ingredients)
   - [Check Evidence Grades](#check-evidence-grades)
   - [Search PubMed Papers](#search-pubmed-papers)
+  - [Browse Health Conditions](#browse-health-conditions)
+  - [Browse Glossary Terms](#browse-glossary-terms)
+  - [Browse Educational Guides](#browse-educational-guides)
 - [Error Handling](#error-handling)
 - [Evidence Grades](#evidence-grades)
 - [API Reference](#api-reference)
@@ -107,6 +110,24 @@ citedhealth papers --year 2024
 # Get a paper by PubMed ID
 citedhealth paper 35959711
 
+# List health conditions
+citedhealth conditions
+
+# Get a single condition
+citedhealth condition hair-loss
+
+# List glossary terms by category
+citedhealth glossary --category vitamins
+
+# Get a glossary term
+citedhealth glossary-term rct
+
+# List educational guides
+citedhealth guides
+
+# Get a single guide
+citedhealth guide biotin-for-hair-loss
+
 # Compact JSON output (default is pretty-printed)
 citedhealth ingredients biotin --json
 ```
@@ -167,7 +188,7 @@ Learn more: [Evidence Reviews](https://citedhealth.com/api/evidence/) · [Gradin
 
 ### Search PubMed Papers
 
-All 2,881 papers are indexed from PubMed and enriched with citation data from Semantic Scholar. Filter by keyword or publication year.
+All 6,197 papers are indexed from PubMed and enriched with citation data from Semantic Scholar. Filter by keyword or publication year.
 
 ```go
 client := citedhealth.New()
@@ -190,6 +211,76 @@ paper, _ := client.GetPaper(ctx, "12345678")
 ```
 
 Learn more: [Browse Papers](https://citedhealth.com/papers/) · [OpenAPI Spec](https://citedhealth.com/api/openapi.json) · [REST API Docs](https://citedhealth.com/developers/)
+
+### Browse Health Conditions
+
+CITED Health tracks 84 health conditions across 6 specialized sites — hair health, sleep quality, gut health, immune function, and brain performance. Each condition includes prevalence data, symptoms, and risk factors.
+
+```go
+client := citedhealth.New()
+ctx := context.Background()
+
+// List all conditions
+conditions, _ := client.ListConditions(ctx, nil)
+fmt.Printf("%d conditions\n", len(conditions))
+
+// Filter featured conditions only
+featured := true
+featured, _ := client.ListConditions(ctx, &featured)
+
+// Get a specific condition by slug
+condition, _ := client.GetCondition(ctx, "hair-loss")
+fmt.Println(condition.Name)        // "Hair Loss"
+fmt.Println(condition.Prevalence)  // Prevalence description
+fmt.Println(condition.Symptoms)    // ["thinning hair", ...]
+```
+
+Learn more: [Conditions API](https://citedhealth.com/api/conditions/) · [Hair Health](https://haircited.com) · [Sleep Health](https://sleepcited.com) · [Gut Health](https://gutcited.com)
+
+### Browse Glossary Terms
+
+228 glossary terms covering supplement science, clinical research methodology, and nutrition terminology. Each term includes a short definition for tooltips and a full definition for detail pages.
+
+```go
+client := citedhealth.New()
+ctx := context.Background()
+
+// List all glossary terms
+terms, _ := client.ListGlossary(ctx, "")
+
+// Filter by category
+vitamins, _ := client.ListGlossary(ctx, "vitamins")
+
+// Get a specific term
+rct, _ := client.GetGlossaryTerm(ctx, "rct")
+fmt.Println(rct.Term)            // "RCT"
+fmt.Println(rct.Abbreviation)    // "Randomized Controlled Trial"
+fmt.Println(rct.ShortDefinition) // Short tooltip text
+```
+
+Learn more: [Glossary API](https://citedhealth.com/api/glossary/) · [Grading Methodology](https://citedhealth.com/editorial-policy/)
+
+### Browse Educational Guides
+
+50 in-depth guides on supplement science, evidence interpretation, and health topics. Guides are organized by category and include full Markdown content.
+
+```go
+client := citedhealth.New()
+ctx := context.Background()
+
+// List all guides
+guides, _ := client.ListGuides(ctx, "")
+
+// Filter by category
+supplementGuides, _ := client.ListGuides(ctx, "supplements")
+
+// Get a specific guide
+guide, _ := client.GetGuide(ctx, "biotin-for-hair-loss")
+fmt.Println(guide.Title)   // "Biotin for Hair Loss: What the Evidence Says"
+fmt.Println(guide.Content) // Full Markdown content
+```
+
+Learn more: [Guides API](https://citedhealth.com/api/guides/) · [Developer Docs](https://citedhealth.com/developers/)
 
 ## Error Handling
 
@@ -244,6 +335,12 @@ if err != nil {
 | `GetEvidenceByID(ctx, id)` | Get evidence link by numeric ID | `(*EvidenceLink, error)` |
 | `SearchPapers(ctx, query, year)` | Search PubMed papers | `([]Paper, error)` |
 | `GetPaper(ctx, pmid)` | Get paper by PubMed ID | `(*Paper, error)` |
+| `ListConditions(ctx, isFeatured)` | List health conditions | `([]Condition, error)` |
+| `GetCondition(ctx, slug)` | Get condition by slug | `(*Condition, error)` |
+| `ListGlossary(ctx, category)` | List glossary terms | `([]GlossaryTerm, error)` |
+| `GetGlossaryTerm(ctx, slug)` | Get glossary term by slug | `(*GlossaryTerm, error)` |
+| `ListGuides(ctx, category)` | List educational guides | `([]Guide, error)` |
+| `GetGuide(ctx, slug)` | Get guide by slug | `(*Guide, error)` |
 
 ### Constructor Options
 
@@ -264,7 +361,7 @@ OpenAPI 3.1.0 spec: [citedhealth.com/api/openapi.json](https://citedhealth.com/a
 ## Learn More About Evidence-Based Supplements
 
 - **Tools**: [Evidence Checker](https://citedhealth.com/api/evidence/) · [Ingredient Browser](https://citedhealth.com/) · [Paper Search](https://citedhealth.com/papers/)
-- **Browse**: [Hair Health](https://haircited.com) · [Sleep Health](https://sleepcited.com) · [All Ingredients](https://citedhealth.com/api/ingredients/)
+- **Browse**: [Hair Health](https://haircited.com) · [Sleep Health](https://sleepcited.com) · [Gut Health](https://gutcited.com) · [Immune Health](https://immunecited.com) · [Brain Health](https://braincited.com) · [All Ingredients](https://citedhealth.com/api/ingredients/)
 - **Guides**: [Grading Methodology](https://citedhealth.com/editorial-policy/) · [Medical Disclaimer](https://citedhealth.com/medical-disclaimer/)
 - **API**: [REST API Docs](https://citedhealth.com/developers/) · [OpenAPI Spec](https://citedhealth.com/api/openapi.json)
 - **Python**: [citedhealth on PyPI](https://pypi.org/project/citedhealth/)

@@ -16,8 +16,33 @@ type Ingredient struct {
 
 // Condition represents a health condition.
 type Condition struct {
-	Slug string `json:"slug"`
-	Name string `json:"name"`
+	Slug            string   `json:"slug"`
+	Name            string   `json:"name"`
+	Description     string   `json:"description"`
+	MetaDescription string   `json:"meta_description"`
+	Prevalence      string   `json:"prevalence"`
+	Symptoms        []string `json:"symptoms"`
+	RiskFactors     []string `json:"risk_factors"`
+	IsFeatured      bool     `json:"is_featured"`
+}
+
+// GlossaryTerm represents a glossary entry.
+type GlossaryTerm struct {
+	Slug            string `json:"slug"`
+	Term            string `json:"term"`
+	ShortDefinition string `json:"short_definition"`
+	Definition      string `json:"definition"`
+	Abbreviation    string `json:"abbreviation"`
+	Category        string `json:"category"`
+}
+
+// Guide represents an educational guide article.
+type Guide struct {
+	Slug            string `json:"slug"`
+	Title           string `json:"title"`
+	Content         string `json:"content"`
+	Category        string `json:"category"`
+	MetaDescription string `json:"meta_description"`
 }
 
 // Paper represents a PubMed-indexed paper.

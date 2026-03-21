@@ -11,7 +11,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const version = "0.3.1"
+const version = "0.4.0"
 
 var jsonCompact bool
 
@@ -30,6 +30,12 @@ func main() {
 		evidenceCmd(),
 		papersCmd(),
 		paperCmd(),
+		conditionsCmd(),
+		conditionCmd(),
+		glossaryCmd(),
+		glossaryTermCmd(),
+		guidesCmd(),
+		guideCmd(),
 	)
 
 	if err := rootCmd.Execute(); err != nil {
@@ -151,6 +157,115 @@ func paperCmd() *cobra.Command {
 			}
 			client := citedhealth.New()
 			result, err := client.GetPaper(context.Background(), args[0])
+			if err != nil {
+				exitError(err)
+			}
+			printJSON(result)
+		},
+	}
+}
+
+func conditionsCmd() *cobra.Command {
+	var featured bool
+	cmd := &cobra.Command{
+		Use:   "conditions",
+		Short: "List health conditions",
+		Args:  cobra.NoArgs,
+		Run: func(cmd *cobra.Command, args []string) {
+			var featuredPtr *bool
+			if cmd.Flags().Changed("featured") {
+				featuredPtr = &featured
+			}
+			client := citedhealth.New()
+			results, err := client.ListConditions(context.Background(), featuredPtr)
+			if err != nil {
+				exitError(err)
+			}
+			printJSON(results)
+		},
+	}
+	cmd.Flags().BoolVar(&featured, "featured", false, "Filter by featured status")
+	return cmd
+}
+
+func conditionCmd() *cobra.Command {
+	return &cobra.Command{
+		Use:   "condition <slug>",
+		Short: "Get a single condition by slug",
+		Args:  cobra.ExactArgs(1),
+		Run: func(cmd *cobra.Command, args []string) {
+			client := citedhealth.New()
+			result, err := client.GetCondition(context.Background(), args[0])
+			if err != nil {
+				exitError(err)
+			}
+			printJSON(result)
+		},
+	}
+}
+
+func glossaryCmd() *cobra.Command {
+	var category string
+	cmd := &cobra.Command{
+		Use:   "glossary",
+		Short: "List glossary terms",
+		Args:  cobra.NoArgs,
+		Run: func(cmd *cobra.Command, args []string) {
+			client := citedhealth.New()
+			results, err := client.ListGlossary(context.Background(), category)
+			if err != nil {
+				exitError(err)
+			}
+			printJSON(results)
+		},
+	}
+	cmd.Flags().StringVarP(&category, "category", "c", "", "Filter by category")
+	return cmd
+}
+
+func glossaryTermCmd() *cobra.Command {
+	return &cobra.Command{
+		Use:   "glossary-term <slug>",
+		Short: "Get a single glossary term by slug",
+		Args:  cobra.ExactArgs(1),
+		Run: func(cmd *cobra.Command, args []string) {
+			client := citedhealth.New()
+			result, err := client.GetGlossaryTerm(context.Background(), args[0])
+			if err != nil {
+				exitError(err)
+			}
+			printJSON(result)
+		},
+	}
+}
+
+func guidesCmd() *cobra.Command {
+	var category string
+	cmd := &cobra.Command{
+		Use:   "guides",
+		Short: "List educational guides",
+		Args:  cobra.NoArgs,
+		Run: func(cmd *cobra.Command, args []string) {
+			client := citedhealth.New()
+			results, err := client.ListGuides(context.Background(), category)
+			if err != nil {
+				exitError(err)
+			}
+			printJSON(results)
+		},
+	}
+	cmd.Flags().StringVarP(&category, "category", "c", "", "Filter by category")
+	return cmd
+}
+
+func guideCmd() *cobra.Command {
+	return &cobra.Command{
+		Use:   "guide <slug>",
+		Short: "Get a single guide by slug",
+		Args:  cobra.ExactArgs(1),
+		Run: func(cmd *cobra.Command, args []string) {
+			client := citedhealth.New()
+			result, err := client.GetGuide(context.Background(), args[0])
 			if err != nil {
 				exitError(err)
 			}

@@ -1,8 +1,8 @@
 // Package citedhealth provides a Go client for the CITED Health API.
 //
-// CITED Health is an evidence-based supplement database covering 74 ingredients,
-// 30 conditions, 152 evidence links, and 2,881 PubMed papers. This client
-// requires no authentication and has zero external dependencies.
+// CITED Health is an evidence-based supplement database across 6 sites covering
+// 188 ingredients, 84 conditions, 323 evidence links, and 6,197 PubMed papers.
+// This client requires no authentication and has zero external dependencies.
 //
 // Usage:
 //
@@ -237,4 +237,133 @@ func (c *Client) GetPaper(ctx context.Context, pmid string) (*Paper, error) {
 		return nil, fmt.Errorf("citedhealth: decode paper: %w", err)
 	}
 	return &paper, nil
+}
+
+// ListConditions returns health conditions, optionally filtered by featured status.
+func (c *Client) ListConditions(ctx context.Context, isFeatured *bool) ([]Condition, error) {
+	params := url.Values{}
+	if isFeatured != nil {
+		params.Set("is_featured", strconv.FormatBool(*isFeatured))
+	}
+
+	path := "/api/conditions/"
+	if encoded := params.Encode(); encoded != "" {
+		path += "?" + encoded
+	}
+
+	body, err := c.doRequest(ctx, path)
+	if err != nil {
+		return nil, fmt.Errorf("citedhealth: list conditions: %w", err)
+	}
+
+	var page PaginatedResponse
+	if err := json.Unmarshal(body, &page); err != nil {
+		return nil, fmt.Errorf("citedhealth: decode response: %w", err)
+	}
+
+	var conditions []Condition
+	if err := json.Unmarshal(page.Results, &conditions); err != nil {
+		return nil, fmt.Errorf("citedhealth: decode conditions: %w", err)
+	}
+	return conditions, nil
+}
+
+// GetCondition returns a single condition by slug.
+func (c *Client) GetCondition(ctx context.Context, slug string) (*Condition, error) {
+	body, err := c.doRequest(ctx, "/api/conditions/"+url.PathEscape(slug)+"/")
+	if err != nil {
+		return nil, fmt.Errorf("citedhealth: get condition: %w", err)
+	}
+
+	var condition Condition
+	if err := json.Unmarshal(body, &condition); err != nil {
+		return nil, fmt.Errorf("citedhealth: decode condition: %w", err)
+	}
+	return &condition, nil
+}
+
+// ListGlossary returns glossary terms, optionally filtered by category.
+func (c *Client) ListGlossary(ctx context.Context, category string) ([]GlossaryTerm, error) {
+	params := url.Values{}
+	if category != "" {
+		params.Set("category", category)
+	}
+
+	path := "/api/glossary/"
+	if encoded := params.Encode(); encoded != "" {
+		path += "?" + encoded
+	}
+
+	body, err := c.doRequest(ctx, path)
+	if err != nil {
+		return nil, fmt.Errorf("citedhealth: list glossary: %w", err)
+	}
+
+	var page PaginatedResponse
+	if err := json.Unmarshal(body, &page); err != nil {
+		return nil, fmt.Errorf("citedhealth: decode response: %w", err)
+	}
+
+	var terms []GlossaryTerm
+	if err := json.Unmarshal(page.Results, &terms); err != nil {
+		return nil, fmt.Errorf("citedhealth: decode glossary: %w", err)
+	}
+	return terms, nil
+}
+
+// GetGlossaryTerm returns a single glossary term by slug.
+func (c *Client) GetGlossaryTerm(ctx context.Context, slug string) (*GlossaryTerm, error) {
+	body, err := c.doRequest(ctx, "/api/glossary/"+url.PathEscape(slug)+"/")
+	if err != nil {
+		return nil, fmt.Errorf("citedhealth: get glossary term: %w", err)
+	}
+
+	var term GlossaryTerm
+	if err := json.Unmarshal(body, &term); err != nil {
+		return nil, fmt.Errorf("citedhealth: decode glossary term: %w", err)
+	}
+	return &term, nil
+}
+
+// ListGuides returns educational guides, optionally filtered by category.
+func (c *Client) ListGuides(ctx context.Context, category string) ([]Guide, error) {
+	params := url.Values{}
+	if category != "" {
+		params.Set("category", category)
+	}
+
+	path := "/api/guides/"
+	if encoded := params.Encode(); encoded != "" {
+		path += "?" + encoded
+	}
+
+	body, err := c.doRequest(ctx, path)
+	if err != nil {
+		return nil, fmt.Errorf("citedhealth: list guides: %w", err)
+	}
+
+	var page PaginatedResponse
+	if err := json.Unmarshal(body, &page); err != nil {
+		return nil, fmt.Errorf("citedhealth: decode response: %w", err)
+	}
+
+	var guides []Guide
+	if err := json.Unmarshal(page.Results, &guides); err != nil {
+		return nil, fmt.Errorf("citedhealth: decode guides: %w", err)
+	}
+	return guides, nil
+}
+
+// GetGuide returns a single guide by slug.
+func (c *Client) GetGuide(ctx context.Context, slug string) (*Guide, error) {
+	body, err := c.doRequest(ctx, "/api/guides/"+url.PathEscape(slug)+"/")
+	if err != nil {
+		return nil, fmt.Errorf("citedhealth: get guide: %w", err)
+	}
+
+	var guide Guide
+	if err := json.Unmarshal(body, &guide); err != nil {
+		return nil, fmt.Errorf("citedhealth: decode guide: %w", err)
+	}
+	return &guide, nil
 }
